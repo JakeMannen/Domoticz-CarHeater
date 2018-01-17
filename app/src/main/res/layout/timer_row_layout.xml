@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <ImageButton
+        android:id="@+id/timerActiveButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
+
+
+    <ImageButton
+        android:id="@+id/timerDeleteButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentTop="true"
+        app:srcCompat="@drawable/ic_delete_black_48dp" />
+
+    <TextView
+        android:text="TextView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/timerTypeTxt"
+        android:layout_alignBottom="@+id/timerActiveButton"
+        android:layout_toEndOf="@+id/timerActiveButton"
+        android:layout_marginBottom="9dp" />
+
+    <TextView
+        android:text="TextView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/timerDateTxt"
+        android:layout_alignParentTop="true"
+        android:layout_toEndOf="@+id/timerActiveButton"
+        android:layout_marginTop="10dp" />
+</RelativeLayout>

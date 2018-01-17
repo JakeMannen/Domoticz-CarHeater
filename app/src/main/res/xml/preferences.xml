@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen xmlns:tools="http://schemas.android.com/tools"
+    xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <PreferenceCategory android:title="Domoticz server">
+
+        <EditTextPreference
+            android:key="domoticz_server"
+            android:singleLine="true"
+            android:summary="Utan Http://"
+            android:title="Server adress" />
+        <EditTextPreference
+            android:defaultValue="8080"
+            android:inputType="number"
+            android:key="domoticz_server_port"
+            android:selectAllOnFocus="true"
+            android:singleLine="true"
+            android:title="Server Port" />
+    </PreferenceCategory>
+    <PreferenceCategory android:title="Motorvärmare">
+
+        <EditTextPreference
+            android:defaultValue="0"
+            android:inputType="number"
+            android:key="heater_idx"
+            android:selectAllOnFocus="true"
+            android:singleLine="true"
+            android:title="Motorvärmare IDX" />
+    </PreferenceCategory>
+    <PreferenceCategory android:title="Temperatur">
+
+        <SwitchPreference
+            android:defaultValue="true"
+            android:title="Visa utomhus temperatur"
+            android:key="temperature_setting_switch" />
+        <EditTextPreference
+            android:defaultValue="0"
+            android:dependency="temperature_setting_switch"
+            android:inputType="number"
+            android:key="temperature_idx"
+            android:selectAllOnFocus="true"
+            android:singleLine="true"
+            android:title="Temperatur IDX" />
+
+    </PreferenceCategory>
+</PreferenceScreen>
