@@ -39,12 +39,6 @@ import java.util.Date;
 public class MainActivity extends AppCompatActivity {
 
 
-
-
-
-
-
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -65,7 +59,7 @@ public class MainActivity extends AppCompatActivity {
 
 
         //Check if a server is set
-        if (SharedPrefs.getString("domoticz_server",null).equals("") || SharedPrefs.getString("domoticz_server", null).equals(null)) {
+        if (SharedPrefs.getString("domoticz_server",null).equals("") || SharedPrefs.getString("domoticz_server", null) == null) {
             Toast.makeText(this,"Ställ in server adress", Toast.LENGTH_SHORT).show();
 
             AlertDialog.Builder startDialog = new AlertDialog.Builder(this);

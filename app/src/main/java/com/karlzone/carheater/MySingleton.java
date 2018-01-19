@@ -7,20 +7,17 @@ import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.toolbox.Volley;
 
-/**
- * Created by Jocke on 2017-02-15.
- */
+public class MySingleton {
 
-public class MySingleton extends Application{
     private static MySingleton mInstance;
     private RequestQueue mRequestQueue;
-    private Context mCtx;
+    private static Context mCtx;
 
 
     private MySingleton(Context context) {
+
         mCtx = context;
         mRequestQueue = getRequestQueue();
-
 
     }
 

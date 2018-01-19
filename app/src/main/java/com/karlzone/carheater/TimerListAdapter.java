@@ -23,9 +23,7 @@ import java.util.StringTokenizer;
 import static android.R.id.list;
 
 
-/**
- * Created by Jocke on 2017-03-03.
- */
+
 
 public class TimerListAdapter extends ArrayAdapter<DomoticzTimer> {
 
@@ -67,7 +65,7 @@ public class TimerListAdapter extends ArrayAdapter<DomoticzTimer> {
 
         deleteTimerButton.setImageResource(R.drawable.ic_delete_black_48dp);
 
-        if (timer.isActive.equals("true")){
+        if (timer.isTimerActive().equals("true")){
 
             activateTimerButton.setImageResource(R.drawable.ic_timer_black_48dp);
         }else{
@@ -99,7 +97,7 @@ public class TimerListAdapter extends ArrayAdapter<DomoticzTimer> {
                                 Toast.makeText(mContext,"Timer borttagen",Toast.LENGTH_SHORT).show();
 
                             }
-                        }, timer.idx);
+                        }, timer.getIDX());
 
 
                     }});
@@ -121,7 +119,7 @@ public class TimerListAdapter extends ArrayAdapter<DomoticzTimer> {
                         ((TimerActivity)mContext).fetchTimerList();
 
 
-                        if (timer.isActive.equals("false")){
+                        if (timer.isTimerActive().equals("false")){
 
                             Toast.makeText(mContext,"Timer Aktiverad", Toast.LENGTH_SHORT).show();
                         }else {

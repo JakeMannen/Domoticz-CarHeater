@@ -75,23 +75,19 @@ public class TimerActivity extends AppCompatActivity {
             @Override
             public void onJSONSuccess(JSONObject dataresponse) {
 
-
-
                 try {
 
                     JSONArray TimersArray = dataresponse.getJSONArray("result");
 
                     ListView Timer_lv = (ListView) findViewById(R.id.ListViewTimer);
-                    ArrayList<DomoticzTimer> TimerLst = new ArrayList<DomoticzTimer>();
+                    ArrayList<DomoticzTimer> TimerLst = new ArrayList<>();
 
+                    //Iterate all timers in JsonArray & add to list
                     for (int i=0; i < TimersArray.length(); i++) {
 
                         JSONObject JsonTimerItem = TimersArray.getJSONObject(i);
 
-                        //DomoticzTimer domoticzTimer = new DomoticzTimer(JsonTimerItem);
-
                         TimerLst.add(new DomoticzTimer(JsonTimerItem));
-
 
                     }
 

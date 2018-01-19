@@ -1,9 +1,5 @@
 package com.karlzone.carheater;
 
-/**
- * Created by Jocke on 2017-02-14.
- */
-
 
 import android.app.Application;
 import android.content.Context;
@@ -25,17 +21,17 @@ import org.json.JSONObject;
 
 public class domoticzDataRetriever extends Application{
 
-    String ServerAdress; //= "192.168.10.11";
-    String ServerPort; // = 8080;
-    static String BASE_URL; // = "Http://"+ServerAdress+":"+ServerPort;
-    static String status_url; //= BASE_URL+"/json.htm?type=devices&rid="+deviceIDX;
-    static String toggleswitch_url; // = BASE_URL+"/json.htm?type=command&param=switchlight&idx="+deviceIDX+"&switchcmd=Toggle";
-    static String temp_url; // = BASE_URL+"/json.htm?type=devices&rid="+tempIDX;
-    static String timerlist_url; // = BASE_URL+"/json.htm?type=timers&idx="+deviceIDX;
-    static String deletetimer_url; // = BASE_URL+"/json.htm?type=command&param=deletetimer&idx=";
+    String ServerAdress;
+    String ServerPort;
+    static String BASE_URL;
+    static String status_url;
+    static String toggleswitch_url;
+    static String temp_url;
+    static String timerlist_url;
+    static String deletetimer_url;
 
-    String deviceIDX; // = 79;
-    String tempIDX; // = 90;
+    String deviceIDX;
+    String tempIDX;
 
 
     Context mCtx;
@@ -131,10 +127,10 @@ private void makeVolleyRequest(String url ,final VolleyCallbackInterface volleyC
 
 
 
-    MySingleton.getInstance(this).addToRequestQueue(jsObjRequest);
+        MySingleton.getInstance(mCtx).addToRequestQueue(jsObjRequest);
 
 
-}
+    }
 }
 
 

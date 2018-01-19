@@ -6,23 +6,19 @@ import android.util.Log;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-/**
- * Created by Jocke on 2017-03-04.
- */
+
 
 public class DomoticzTimer {
 
 
-    public String isActive;
+    private String isActive;
     private int cmd;
     private int days;
-    private String hour;
-    private String min;
     private String date;
     private String time;
     private int Mday;
     private int type;
-    public String idx;
+    private String idx;
     private int occurence;
     private int month;
     private String randomness;
@@ -39,7 +35,6 @@ public class DomoticzTimer {
     public DomoticzTimer(JSONObject jsonObject) {
 
 
-
         try {
 
             this.isActive = jsonObject.getString("Active");
@@ -53,39 +48,48 @@ public class DomoticzTimer {
             this.idx = jsonObject.getString("idx");
             this.occurence = jsonObject.getInt("Occurence");
 
+        } catch (JSONException e) {
+            e.printStackTrace();
         }
-        catch (JSONException e){
-           e.printStackTrace();
-        }
-
-        switch (this.days){
-
-            case 0 : this.daysString = "";
-                break;
-            case 1 : this.daysString = "Mån";
-                break;
-            case 2 : this.daysString = "Tis";
-                break;
-            case 4 : this.daysString = "Ons";
-                break;
-            case 8 : this.daysString = "Tors";
-                break;
-            case 16 : this.daysString = "Fre";
-                break;
-            case 32 : this.daysString = "Lör";
-                break;
-            case 64 : this.daysString = "Sön";
-                break;
-            case 128 : this.daysString = "Alla dagar";
-                break;
-
-
-
-        }
-
-
-
     }
+
+    public String getTimerSetDays() {
+
+        switch (this.days) {
+
+                case 0:
+                    this.daysString = "";
+                    break;
+                case 1:
+                    this.daysString = "Mån";
+                    break;
+                case 2:
+                    this.daysString = "Tis";
+                    break;
+                case 4:
+                    this.daysString = "Ons";
+                    break;
+                case 8:
+                    this.daysString = "Tors";
+                    break;
+                case 16:
+                    this.daysString = "Fre";
+                    break;
+                case 32:
+                     this.daysString = "Lör";
+                     break;
+                case 64:
+                    this.daysString = "Sön";
+                    break;
+                case 128:
+                    this.daysString = "Alla dagar";
+                    break;
+
+
+             }
+        return this.daysString;
+    }
+
 
     public String getTypeString(){
 
@@ -156,29 +160,42 @@ public class DomoticzTimer {
 
     public String getActiveToggleUrl() {
 
+        String hour,min;
+
         String[] hour_min = this.time.split(":");
 
-        this.hour = hour_min[0];
-        this.min = hour_min[1];
+        hour = hour_min[0];
+        min = hour_min[1];
 
         if (this.isActive.equals("true")){
 
             activeToggle_url = "/json.htm?type=command&param=updatetimer&idx=" + this.idx + "&active=false" + "&timertype=" + this.type +
-                                "&date=" + this.date + "&hour=" + this.hour + "&min=" + this.min + "&randomness=" + this.randomness + "&command=" +this.cmd +
+                                "&date=" + this.date + "&hour=" + hour + "&min=" + min + "&randomness=" + this.randomness + "&command=" +this.cmd +
                                 "&level=100&hue=0" + "&days=" + this.days + "&mday=" + this.Mday + "&month=" + this.month + "&occurence=" + this.occurence;
 
             //http://192.168.10.11:8080/json.htm?type=command&param=updatetimer&idx=5&active=false&timertype=0&date=&hour=0&min=0&randomness=false&command=0&level=100&hue=0&days=1&mday=1&month=1&occurence=1
         } else {
 
             activeToggle_url = "/json.htm?type=command&param=updatetimer&idx=" + this.idx + "&active=true" + "&timertype=" + this.type +
-                    "&date=" + this.date + "&hour=" + this.hour + "&min=" + this.min + "&randomness=" + this.randomness + "&command=" +this.cmd +
+                    "&date=" + this.date + "&hour=" + hour + "&min=" + min + "&randomness=" + this.randomness + "&command=" +this.cmd +
                     "&level=100&hue=0" + "&days=" + this.days + "&mday=" + this.Mday + "&month=" + this.month + "&occurence=" + this.occurence;
 
         }
 
-        Log.d("TOGGLE_URL", activeToggle_url.toString());
+        Log.d("TOGGLE_URL", activeToggle_url);
 
         return activeToggle_url;
     }
 
+    //Returns true/false if timer is active
+    public String isTimerActive() {
+
+        return isActive;
+    }
+
+    //Returns the idx number
+    public String getIDX() {
+
+        return this.idx;
+    }
 }
