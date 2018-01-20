@@ -91,14 +91,9 @@ public class TimerActivity extends AppCompatActivity {
 
                     }
 
-
                     TimerListAdapter adapter = new TimerListAdapter(TimerActivity.this, R.layout.timer_row_layout, TimerLst);
                     Timer_lv.setAdapter(adapter);
                     adapter.notifyDataSetChanged();
-
-
-
-
 
                 }catch (JSONException e){
 

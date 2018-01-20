@@ -30,10 +30,8 @@ import org.json.JSONException;
 import org.json.JSONObject;
 import org.json.JSONArray;
 
-
-import java.text.SimpleDateFormat;
 import java.util.Calendar;
-import java.util.Date;
+
 
 
 public class MainActivity extends AppCompatActivity {
@@ -90,20 +88,21 @@ public class MainActivity extends AppCompatActivity {
 
         fetchTemperature();
 
-
+        //Clicking Heater Toggle Button
         heaterToggle.setOnClickListener(new View.OnClickListener() {
 
             @Override
             public void onClick(View v) {
-                // Do something in response to button click
 
-
-
+               //Toggle heater on click
                 domo.toggleSwitch(new VolleyCallbackInterface() {
+
+                    //Successful click
                     @Override
                     public void onJSONSuccess(JSONObject dataresponse) {
 
-                            updateStatus();
+                        //Update the status of Heater button
+                        updateStatus();
 
                     }
                 });
@@ -112,7 +111,9 @@ public class MainActivity extends AppCompatActivity {
 
         });
 
+        /*Clicking the "When are you leaving?" button*/
         cartimer.setOnClickListener(new View.OnClickListener() {
+
 
             String quicktimer_timeset;
             String quicktimer_dateset;
@@ -122,7 +123,6 @@ public class MainActivity extends AppCompatActivity {
 
                 AlertDialog.Builder quicktimerDialog = new AlertDialog.Builder(MainActivity.this);
 
-
                 View aView = getLayoutInflater().inflate(R.layout.quick_timer_dialog, null);
 
                 final TextView nTime = (TextView) aView.findViewById(R.id.quick_timer_timetxt);
@@ -130,7 +130,7 @@ public class MainActivity extends AppCompatActivity {
 
                 final Calendar calendar = Calendar.getInstance();
 
-
+                /*Start the time picker*/
                 nTime.setOnClickListener(new View.OnClickListener(){
 
                     @Override
@@ -141,47 +141,45 @@ public class MainActivity extends AppCompatActivity {
 
                         TimePickerDialog timepick = new TimePickerDialog(MainActivity.this, new TimePickerDialog.OnTimeSetListener() {
 
-
-
                                       @Override
                                       public void onTimeSet(TimePicker view, int hourOfDay, int minute) {
 
                                             quicktimer_timeset = String.format("%02d", hourOfDay) + ":" + String.format("%02d", minute);
 
                                           nTime.setText(quicktimer_timeset);
+
                             }
                         }, hournow, minutesnow, true);
 
                                       timepick.show();
                                         nTime.setError(null);
-                          }
+                    }
 
-                                 });
+                });
 
-                                         nDate.setOnClickListener(new View.OnClickListener() {
+                /*Start the date picker*/
+                nDate.setOnClickListener(new View.OnClickListener() {
 
-                                             int yearnow = calendar.get(Calendar.YEAR);
-                                             int monthnow = calendar.get(Calendar.MONTH);
-                                             int dayofmonthnow = calendar.get(Calendar.DAY_OF_MONTH);
+                    int yearnow = calendar.get(Calendar.YEAR);
+                    int monthnow = calendar.get(Calendar.MONTH);
+                    int dayofmonthnow = calendar.get(Calendar.DAY_OF_MONTH);
 
-                                             @Override
-                                             public void onClick(View v) {
+                    @Override
+                    public void onClick(View v) {
 
-                                                 DatePickerDialog datepick = new DatePickerDialog(MainActivity.this, new DatePickerDialog.OnDateSetListener() {
+                        DatePickerDialog datepick = new DatePickerDialog(MainActivity.this, new DatePickerDialog.OnDateSetListener() {
                                                      @Override
-                                                     public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {
-
-                                                         quicktimer_dateset = year + "-" + String.format("%02d", month+1) + "-" + String.format("%02d", dayOfMonth);
+                                                     public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {quicktimer_dateset = year + "-" + String.format("%02d", month+1) + "-" + String.format("%02d", dayOfMonth);
 
                                                          nDate.setText(quicktimer_dateset);
 
                                                      }
                                                  }, yearnow, monthnow, dayofmonthnow);
 
-                                                 datepick.show();
-                                                 nDate.setError(null);
-                                             }
-                                         });
+                        datepick.show();
+                        nDate.setError(null);
+                    }
+                });
 
                 quicktimerDialog.setView(aView);
 
@@ -213,28 +211,66 @@ public class MainActivity extends AppCompatActivity {
 
                     public void onClick(View v){
 
+
                         InputMatcher validate = new InputMatcher();
 
-                        if (validate.validateTime(nTime.getText().toString()) && validate.validateDate(nDate.getText().toString())) {
 
-
-
-                            Toast.makeText(MainActivity.this, "Timer inställd \n"+ nDate.getText()+" " +nTime.getText(), Toast.LENGTH_LONG).show();
-
-                            //   domo.setQuickTimer();
-
-                            dialog.dismiss();
-
-                        }else if(validate.validateTime(nTime.getText().toString()).equals(false)){
-
-                            nTime.setError("Tid ej korrekt!");
-
-
-                        }else if (validate.validateDate(nDate.getText().toString()).equals(false)){
+                        /*If date is not valid input*/
+                        if(!validate.validateDate(nDate.getText().toString())){
 
                             nDate.setError("Datum ej korrekt!");
 
+                        /*If date is today & time is not valid input*/
+                        }else if (validate.isDateToday(nDate.getText().toString()) && !validate.validateTime(nTime.getText().toString())){
+
+                            nTime.setError("Tid ej korrekt!");
+
                         }
+
+                        /*On successful time date validation*/
+                        else {
+
+                            /*Try to set timer*/
+                            domo.setQuickTimer(new VolleyCallbackInterface() {
+
+                                /*Timer successfully set*/
+                                @Override
+                                public void onJSONSuccess(JSONObject dataresponse) {
+
+                                    try{
+
+                                        /*If the heater was started at once*/
+                                        if(dataresponse.getString("title").equals("SwitchLight")){
+
+                                            Toast.makeText(MainActivity.this, "Tiden för timer har passerat, startar värmning nu.", Toast.LENGTH_LONG).show();
+                                            updateStatus();
+                                        }
+                                        /*If a timer is set*/
+                                        else if(dataresponse.getString("title").equals("AddTimer")){
+
+                                            Toast.makeText(MainActivity.this, "Timer inställd: \n" + nDate.getText() + " " + nTime.getText(), Toast.LENGTH_LONG).show();
+
+                                        }
+                                        else {
+
+                                            Toast.makeText(MainActivity.this, "Något gick fel!", Toast.LENGTH_LONG).show();
+
+                                        }
+
+
+                                    }
+                                    catch (JSONException e){
+
+                                    }
+
+                                }
+                            }, quicktimer_timeset, quicktimer_dateset);
+
+                            /*Close dialog*/
+                            dialog.dismiss();
+
+                        }
+
 
                     }
                 });
@@ -290,7 +326,7 @@ public class MainActivity extends AppCompatActivity {
         return super.onOptionsItemSelected(item);
     }
 
-    /*  Uppdatera status  */
+    /*  Update status  */
 
       void updateStatus() {
 
@@ -314,10 +350,13 @@ public class MainActivity extends AppCompatActivity {
 
                     JSONArray jsonArr = dataresponse.getJSONArray("result");
 
+                    /*If JSON status is now ON*/
                     if (jsonArr.getJSONObject(0).getString("Status").equals("On")) {
 
                         heaterToggle.setColorFilter(Color.RED);
                         heaterStatusText.setText("Just nu värms bilen!");
+
+                    /*If JSON status is now OFF*/
                     } else {
 
                         heaterToggle.setColorFilter(Color.BLACK);
@@ -334,22 +373,32 @@ public class MainActivity extends AppCompatActivity {
         });
       }
 
-    /* Hämta Temperatur */
+    /* Get Temperature */
 
     void fetchTemperature() {
 
         SharedPreferences SharedPrefs = PreferenceManager.getDefaultSharedPreferences(this);
         final TextView mTextView = (TextView) findViewById(R.id.tmpTxt);
 
+        //If temperature is not set preferences then exit
         if (!SharedPrefs.getBoolean("temperature_setting_switch", false)) {
 
             mTextView.setVisibility(View.INVISIBLE);
             return;
         }
 
-        final domoticzDataRetriever domo = new domoticzDataRetriever(this);
+        /*If no temperature device IDX is set*/
+        else if (SharedPrefs.getString("temperature_idx", null) == null) {
 
-        domo.getTemperature(new VolleyCallbackInterface() {
+            mTextView.setVisibility(View.INVISIBLE);
+
+            Toast.makeText(this, "No Temperature IDX set", Toast.LENGTH_SHORT).show();
+            return;
+
+        }
+        final domoticzDataRetriever domoTemperature = new domoticzDataRetriever(this);
+
+        domoTemperature.getTemperature(new VolleyCallbackInterface() {
 
             @Override
 

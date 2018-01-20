@@ -1,8 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
+
 <PreferenceScreen xmlns:tools="http://schemas.android.com/tools"
     xmlns:android="http://schemas.android.com/apk/res/android">
 
-    <PreferenceCategory android:title="Domoticz server">
+
+    <PreferenceCategory android:title="Domoticz Server Settings">
 
         <EditTextPreference
             android:key="domoticz_server"
@@ -17,6 +19,7 @@
             android:singleLine="true"
             android:title="Server Port" />
     </PreferenceCategory>
+
     <PreferenceCategory android:title="Motorvärmare">
 
         <EditTextPreference
@@ -25,14 +28,16 @@
             android:key="heater_idx"
             android:selectAllOnFocus="true"
             android:singleLine="true"
-            android:title="Motorvärmare IDX" />
+            android:title="Motorvärmare IDX nummer" />
     </PreferenceCategory>
+
     <PreferenceCategory android:title="Temperatur">
 
         <SwitchPreference
-            android:defaultValue="true"
+            android:defaultValue="false"
+            android:key="temperature_setting_switch"
             android:title="Visa utomhus temperatur"
-            android:key="temperature_setting_switch" />
+            android:summary="Om du har en utomhus tempgivare i Domoticz."/>
         <EditTextPreference
             android:defaultValue="0"
             android:dependency="temperature_setting_switch"
@@ -40,7 +45,18 @@
             android:key="temperature_idx"
             android:selectAllOnFocus="true"
             android:singleLine="true"
-            android:title="Temperatur IDX" />
-
+            android:title="Temperatur IDX nummer" />
     </PreferenceCategory>
+
+    <PreferenceCategory android:title="Timer">
+
+        <ListPreference
+            android:defaultValue="120"
+            android:entries="@array/hours_set"
+            android:entryValues="@array/hours_set_values"
+            android:key="hour_set_list"
+            android:title="Värmtid"
+            android:summary="Hur lång tid innan en timer värmning ska börja." />
+    </PreferenceCategory>
+
 </PreferenceScreen>

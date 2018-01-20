@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="hours_set" >
+        <item name="half_h">0.5 H</item>
+        <item name="one_h">1 H</item>
+        <item name="one_half_h">1.5 H</item>
+        <item name="two_h">2 H</item>
+    </string-array>
+
+    <string-array name="hours_set_values" >
+        <item name="half_h">30</item>
+        <item name="one_h">60</item>
+        <item name="one_half_h">90</item>
+        <item name="two_h">120</item>
+    </string-array>
+
+</resources>

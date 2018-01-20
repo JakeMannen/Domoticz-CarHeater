@@ -1,16 +1,22 @@
 package com.karlzone.carheater;
 
+import android.content.SharedPreferences;
 import android.preference.PreferenceActivity;
 import android.os.Bundle;
 import android.preference.PreferenceFragment;
 
-public class OptionsActivity extends PreferenceActivity {
+
+
+public class OptionsActivity extends PreferenceActivity{
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
         getFragmentManager().beginTransaction().replace(android.R.id.content, new OptionsFragment()).commit();
+
     }
+
 
     public static class OptionsFragment extends PreferenceFragment
     {
@@ -19,6 +25,9 @@ public class OptionsActivity extends PreferenceActivity {
         {
             super.onCreate(savedInstanceState);
             addPreferencesFromResource(R.xml.preferences);
+
         }
+
+
     }
 }
